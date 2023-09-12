@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.print.Doc;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -27,6 +28,21 @@ public class DoctorService {
             return new ResponseEntity<>(valid(doctor).toString(), HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    public ResponseEntity<String> deleteDoctor(int doctorId){
+        if(!doctorRepository.findById(doctorId).isPresent()){
+            return new ResponseEntity<>("Doctor with given id is not present",HttpStatus.NOT_FOUND);
+        }
+        else{
+            doctorRepository.deleteById(doctorId);
+            return new ResponseEntity<>("Doctor deleted successfully",HttpStatus.OK);
+        }
+    }
+
+
+    public List<Doctor> getDoctors(){
+        return doctorRepository.findAll();
     }
 
 
